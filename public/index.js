@@ -81,6 +81,40 @@ var rentals = [{
   }
 }];
 
+function duration(date1,date2){
+	var pick = new Date(date1);
+	var retu = new Date(date2);
+	var diff = 1 + ( retu.getTime() - pick.getTime())/86400000;
+	return diff;
+}
+
+function Rentalprice(rentals , cars)
+{
+var priceDay = 0;
+var priceDist = 0 ;
+for (var i = 0 ; i< rentals.length ; i++)
+{
+
+for (var j = 0 ; j < cars.length ; j++){
+if(cars[j].id == rentals[i].carId)
+{
+priceDay = cars[i].pricePerDay;
+priceDist = cars[i].pricePerKm;
+
+}
+var time = duration(rentals[i].pickupDate, rentals[i].returnDate );
+rentals[i].price =  (time * priceDay) + (rentals[i].distance * priceDist);
+}
+
+
+}
+
+}
+
+Rentalprice(rentals,cars);
+
+
+
 //list of actors for payment
 //useful from exercise 5
 var actors = [{
