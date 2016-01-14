@@ -81,12 +81,6 @@ var rentals = [{
   }
 }];
 
-function duration(date1,date2){  // Calculation of duration 
-  var pick = new Date(date1);
-  var retu = new Date(date2);
-  var diff = 1 + ( retu.getTime() - pick.getTime())/86400000;
-  return diff;
-}
 
 function Rentalprice(rentals , cars){ // Function generate the price for each driver
   var priceDay = 0;
@@ -94,16 +88,18 @@ function Rentalprice(rentals , cars){ // Function generate the price for each dr
 
     for (var i = 0 ; i< rentals.length ; i++){
       for (var j = 0 ; j < cars.length ; j++){
-        if(cars[j].id == rentals[i].carId)
-          {
+        if(cars[j].id == rentals[i].carId){
             priceDay = cars[i].pricePerDay;
             priceDist = cars[i].pricePerKm;
           }
 
-      var time = duration(rentals[i].pickupDate, rentals[i].returnDate ) * priceDay;
-      var distance =  cars[i].pricePerKm * rentals[i].distance;
 
-      rentals[i].price =  time + distance; // Calculation Rental price
+      var date = (new Date(rentals[i].returnDate)-new Date(rentals[i].pickupDate))/86400000;
+      var time = priceDay*(date+1);
+      var distance =  priceDist * rentals[i].distance;
+
+       rentals[i].price =  time + distance; 
+    
 
       }
     }
