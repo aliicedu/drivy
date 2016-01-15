@@ -122,12 +122,14 @@ rentals[i].commission.assistance = date;
 rentals[i].commission.insurance = commission / 2;
 rentals[i].commission.drivy = commission - rentals[i].commission.assistance - rentals[i].commission.insurance;
 
+
+if(rentals[i].options.deductibleReduction){
+  rentals[i].price = rentals[i].price + (4*date);
+}
     }
   }
 }
 
-
-Rentalprice(rentals,cars);
 
 
 
@@ -214,6 +216,10 @@ var rentalModifications = [{
   'rentalId': '3-sa-92',
   'pickupDate': '2015-12-05'
 }];
+
+
+
+Rentalprice(rentals,cars);
 
 console.log(cars);
 console.log(rentals);
