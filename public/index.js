@@ -94,16 +94,32 @@ function Rentalprice(rentals , cars){ // Function generate the price for each dr
           }
 
 
-      var date = (new Date(rentals[i].returnDate)-new Date(rentals[i].pickupDate))/86400000;
-      var time = priceDay*(date+1);
+      var date = (( new Date(rentals[i].returnDate) - new Date(rentals[i].pickupDate) )/86400000)+1;
+      var time = priceDay*date;
       var distance =  priceDist * rentals[i].distance;
 
-       rentals[i].price =  time + distance; 
-    
+      
 
+      if (date<2)
+        { rentals[i].price =  time + distance; 
       }
+
+      else if(1<date<5){
+        rentals[i].price = (time*0.9) + distance ;
+      }
+
+      else if(4<date<9){
+        rentals[i].price = (time  * 0.7) + distance ;
+      }
+
+      else if(10<date){
+        rentals[i].price = ( time * 0.5) + distance ;
+      }
+
+      
     }
   }
+}
 
 
 Rentalprice(rentals,cars);
