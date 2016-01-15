@@ -117,6 +117,7 @@ function Rentalprice(rentals , cars){ // Function generate the price for each dr
         rentals[i].price = ( time * 0.5) + distance ;
       }
 
+
       commission = (30* rentals[i].price) / 100;
 rentals[i].commission.assistance = date;
 rentals[i].commission.insurance = commission / 2;
@@ -125,11 +126,15 @@ rentals[i].commission.drivy = commission - rentals[i].commission.assistance - re
 
 if(rentals[i].options.deductibleReduction){
   rentals[i].price = rentals[i].price + (4*date);
+  var deductible = rentals[i].price;
 }
+
     }
   }
 }
 
+
+Rentalprice(rentals,cars);
 
 
 
@@ -206,6 +211,43 @@ var actors = [{
   }]
 }];
 
+
+ function payActors(rentals){
+    for(var i=0; i < actors.length; i++){
+      for (var j = 0 ; j < rentals.length ; j++){
+        if(rentals[j].id == actors[i].rentalId)
+          { 
+
+          	var date1 = (( new Date(rentals[j].returnDate) - new Date(rentals[j].pickupDate) )/86400000)+1;
+          	var deductible =0; 
+          
+            if(rentals[j].options.deductibleReduction){
+               deductible = (4*date1);
+             }
+
+
+            for(var k=0; k <actors[i].payment.length ;k++){
+
+            if(actors[i].payment[k].who == "driver")
+               actors[i].payment[k].amount = rentals[i].price;
+            if(actors[i].payment[k].who == "owner")
+             actors[i].payment[k].amount = Math.floor((rentals[i].price - deductible) * 0.7 ) ;
+            if(actors[i].payment[k].who == "insurance")
+              actors[i].payment[k].amount = rentals[i].commission.insurance;
+            if(actors[i].payment[k].who == "assistance")
+             actors[i].payment[k].amount = rentals[i].commission.assistance;
+            if(actors[i].payment[k].who == "drivy")
+            actors[i].payment[k].amount = rentals[i].commission.drivy + deductible ;
+ }
+       
+}
+
+}
+}
+}
+payActors(rentals);
+
+
 //list of rental modifcation
 //useful for exercise 6
 var rentalModifications = [{
@@ -219,7 +261,6 @@ var rentalModifications = [{
 
 
 
-Rentalprice(rentals,cars);
 
 console.log(cars);
 console.log(rentals);
