@@ -101,7 +101,7 @@ function Rentalprice(rentals , cars){ // Function generate the price for each dr
 
       
 
-      if (date<2)
+      if (date<2) 
         { rentals[i].price =  time + distance; 
       }
 
@@ -118,7 +118,7 @@ function Rentalprice(rentals , cars){ // Function generate the price for each dr
       }
 
 
-      commission = (30* rentals[i].price) / 100;
+      commission = (30* rentals[i].price) / 100; // exercise 3
 rentals[i].commission.assistance = date;
 rentals[i].commission.insurance = commission / 2;
 rentals[i].commission.drivy = commission - rentals[i].commission.assistance - rentals[i].commission.insurance;
@@ -134,7 +134,7 @@ if(rentals[i].options.deductibleReduction){
 }
 
 
-Rentalprice(rentals,cars);
+
 
 
 
@@ -231,7 +231,7 @@ var actors = [{
             if(actors[i].payment[k].who == "driver")
                actors[i].payment[k].amount = rentals[i].price;
             if(actors[i].payment[k].who == "owner")
-             actors[i].payment[k].amount = Math.floor((rentals[i].price - deductible) * 0.7 ) ;
+             actors[i].payment[k].amount = Math.round((rentals[i].price - deductible) * 0.7 ) ;
             if(actors[i].payment[k].who == "insurance")
               actors[i].payment[k].amount = rentals[i].commission.insurance;
             if(actors[i].payment[k].who == "assistance")
@@ -245,7 +245,7 @@ var actors = [{
 }
 }
 }
-payActors(rentals);
+
 
 
 //list of rental modifcation
@@ -261,6 +261,33 @@ var rentalModifications = [{
 
 
 
+function modif(rentals){
+	for(var i=0; i<rentalModifications.length; i++){
+			for(var k=0; k< rentals.length; k++){
+				if(rentalModifications[i].rentalId == rentals[k].id){
+
+					if( typeof rentalModifications[i].returnDate != "undefined"){
+					rentals[k].returnDate = rentalModifications[i].returnDate;
+				}
+
+				if(typeof rentalModifications[i].pickupDate != "undefined"){
+					rentals[k].pickupDate = rentalModifications[i].pickupDate;
+				}
+
+				if(typeof rentalModifications[i].distance != "undefined"){
+					rentals[k].distance = rentalModifications[i].distance;
+				}
+			}
+		}
+
+}
+}
+
+Rentalprice(rentals,cars);
+
+modif(rentals);
+
+payActors(rentals);
 
 console.log(cars);
 console.log(rentals);
