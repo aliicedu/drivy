@@ -85,6 +85,7 @@ var rentals = [{
 function Rentalprice(rentals , cars){ // Function generate the price for each driver
   var priceDay = 0;
   var priceDist = 0 ;
+  var commission =0;
 
     for (var i = 0 ; i< rentals.length ; i++){
       for (var j = 0 ; j < cars.length ; j++){
@@ -116,7 +117,11 @@ function Rentalprice(rentals , cars){ // Function generate the price for each dr
         rentals[i].price = ( time * 0.5) + distance ;
       }
 
-      
+      commission = (30* rentals[i].price) / 100;
+rentals[i].commission.assistance = date;
+rentals[i].commission.insurance = commission / 2;
+rentals[i].commission.drivy = commission - rentals[i].commission.assistance - rentals[i].commission.insurance;
+
     }
   }
 }
